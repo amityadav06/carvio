@@ -5,9 +5,10 @@ import { ArrowLeft, CarFront, Heart, Layout } from "lucide-react";
 import { SignInButton, Show, UserButton } from "@clerk/nextjs";
 import { checkUser } from "@/lib/checkUser";
 
-const Header = async ({ isAdminPage = false }) => {
+const Header = async ({ isAdminPage }) => {
   const user = await checkUser();
-  const isAdmin = user?.role === "ADMIN";
+  const isAdmin = user?.role === "ADMIN"; // comment added
+
   return (
     <header className="fixed w-full top-0 bg-white/80 backdrop-blur-md z-50 border-b">
       <nav className="mx-auto px-4 py-4 flex items-center justify-between">
@@ -36,22 +37,26 @@ const Header = async ({ isAdminPage = false }) => {
             </Link>
           ) : (
             <Show when="signed-in">
-              <Link href="/saved-cars">
-                <Button>
-                  <Heart size={18} />
-                  <span className="hidden md:inline">Saved Cars</span>
-                </Button>
-              </Link>
-              {isAdmin ? (
-                <Link href="/saved-cars">
+              {!isAdmin && (
+                <Link
+                  href="/reservations"
+                  className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+                >
                   <Button variant="outline">
                     <CarFront size={18} />
                     <span className="hidden md:inline">My Reservations</span>
                   </Button>
                 </Link>
-              ) : (
+              )}
+              <a href="/saved-cars">
+                <Button className="flex items-center gap-2">
+                  <Heart size={18} />
+                  <span className="hidden md:inline">Saved Cars</span>
+                </Button>
+              </a>
+              {isAdmin && (
                 <Link href="/admin">
-                  <Button variant="outline">
+                  <Button variant="outline" className="flex items-center gap-2">
                     <Layout size={18} />
                     <span className="hidden md:inline">Admin Portal</span>
                   </Button>

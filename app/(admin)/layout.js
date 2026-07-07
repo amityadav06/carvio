@@ -3,7 +3,7 @@ import Header from "@/components/header";
 import { notFound } from "next/navigation";
 import React from "react";
 
-const AsminLayout = async () => {
+const AdminLayout = async ({ children }) => {
   const admin = await getAdmin();
 
   if (!admin.authorized) {
@@ -12,9 +12,10 @@ const AsminLayout = async () => {
 
   return (
     <div className="h-full">
-      <Header isAdminPage={true} />
+      <Header isAdminPage={"hjhukuhukhk"} />
+      {children}
     </div>
   );
 };
 
-export default AsminLayout;
+export default AdminLayout;
